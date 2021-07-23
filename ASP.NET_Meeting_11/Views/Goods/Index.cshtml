@@ -1,0 +1,36 @@
+﻿@using ASP.NET_Meeting_11.Models
+@model IEnumerable<Good>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class="btn btn-primary"} )
+</p>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+
+    @foreach (Good item in Model)
+    {
+        <div class="col">
+            <a href="@Url.Action("Details", "Goods", new { id = item.Id }, null)" class="goodLink">
+                <div class="card h-100 goodCard">
+                    @if (item.Photos.Count > 0)
+                    {
+                        <div class="card-img-top cardImage" style="background-image: url(data:@item.Photos.First().ContentType;base64,@Convert.ToBase64String(@item.Photos.First().PhotoData));"></div>
+                    }
+                    else
+                    {
+                        <div class="cardImage" style="background-color: aliceblue; display: flex; justify-content: center; align-items: center; height: 250px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#0d6efd" class="bi bi-question-lg" viewBox="0 0 16 16">
+                                <path d="M3 4.075a.423.423 0 0 0 .43.44H4.9c.247 0 .442-.2.475-.445.159-1.17.962-2.022 2.393-2.022 1.222 0 2.342.611 2.342 2.082 0 1.132-.668 1.652-1.72 2.444-1.2.872-2.15 1.89-2.082 3.542l.005.386c.003.244.202.44.446.44h1.445c.247 0 .446-.2.446-.446v-.188c0-1.278.487-1.652 1.8-2.647 1.086-.826 2.217-1.743 2.217-3.667C12.667 1.301 10.393 0 7.903 0 5.645 0 3.17 1.053 3.001 4.075zm2.776 10.273c0 .95.758 1.652 1.8 1.652 1.085 0 1.832-.702 1.832-1.652 0-.985-.747-1.675-1.833-1.675-1.04 0-1.799.69-1.799 1.675z" />
+                            </svg>
+                        </div>
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text">@item.Category.CategoryName</p>
+                        <h5 class="card-text cardPrice"><span>@item.Price грн</span></h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+    }
+</div>
