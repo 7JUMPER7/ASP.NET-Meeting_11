@@ -218,14 +218,79 @@ body header {
         font-weight: bold;
         font-size: 40px;
     }
+
     .goodDescription .description {
         font-size: 15px;
     }
+
     .goodDescription .price {
         color: #2787f5;
         font-weight: bold;
         font-size: 40px;
     }
+
     .goodDescription > .buttons a {
         margin-right: 5px;
     }
+
+
+
+.pageSelector {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+    .pageSelector li.active a {
+        background-color: #2787f5 !important;
+    }
+
+    .pageSelector a {
+        color: black;
+        text-decoration: none;
+        padding: 10px;
+    }
+
+
+
+.controls {
+    margin-bottom: 100px;
+    padding: 30px;
+    background-color: #2787f5;
+    border-radius: 7px;
+    box-shadow: 3px 3px 15px 0 rgba(0, 0, 0, .2);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .controls .btn {
+        max-height: 40px;
+        background-color: white !important;
+    }
+
+        .controls .btn:hover {
+            color: #2787f5;
+        }
+
+    .controls .filter {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+        .controls .filter label {
+            color: white;
+            margin-right: 10px;
+        }
+
+    .controls form {
+        margin-left: 30px;
+        display: flex;
+        flex-direction: row;
+    }
+
+        .controls form input[type="submit"] {
+            margin-left: 10px;
+        }

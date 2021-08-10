@@ -52,9 +52,14 @@ namespace ASP.NET_Meeting_11.Models
             return context.Goods.Find(id);
         }
 
-        public SelectList GetCategories(string dataValue, string dataText)
+        public SelectList GetCategories(string dataValue, string dataText, bool withAll = false)
         {
-            return new SelectList(context.Categories, dataValue, dataText);
+            var categories = context.Categories.ToList();
+            if (withAll)
+            {
+                categories.Insert(0, new Category { Id = 0, CategoryName = "Все" });
+            }
+            return new SelectList(categories, dataValue, dataText);
         }
 
         public SelectList GetCategories(string dataValue, string dataText, int selectedItem)

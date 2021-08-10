@@ -19,7 +19,7 @@ namespace ASP.NET_Meeting_11.DAL
         void Update(T entity);
         void Create(T entity);
         void Save();
-        SelectList GetCategories(string dataValue, string dataText);
+        SelectList GetCategories(string dataValue, string dataText, bool withAll = false);
         SelectList GetCategories(string dataValue, string dataText, int selectedItem);
         Photo AddPhoto(Photo photo);
         void RemoveImagesOfGood(Good good);

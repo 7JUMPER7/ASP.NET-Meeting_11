@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using ASP.NET_Meeting_11.DAL;
 using ASP.NET_Meeting_11.Models;
+using ASP.NET_Meeting_11.ViewModel;
+using PagedList;
 
 namespace ASP.NET_Meeting_11.Controllers
 {
@@ -21,9 +23,19 @@ namespace ASP.NET_Meeting_11.Controllers
         }
 
         // GET: Goods
-        public ActionResult Index()
+        public ActionResult Index(int? page, int? category)
         {
-            return View(repository.GetList());
+            int pageNumber = page.HasValue ? page.Value : 1;
+            int pageSize = 3;
+
+            var goods = repository.GetList();
+            if (category.HasValue && category != 0)
+            {
+                goods = goods.Where(g => g.CategoryId == category);
+            }
+
+            GoodIndexViewModel viewModel = new GoodIndexViewModel { Goods = goods.ToList().ToPagedList(pageNumber, pageSize), Categories = repository.GetCategories("Id", "CategoryName", true) };
+            return View(viewModel);
         }
 
         // GET: Goods/Details/5
@@ -60,8 +72,11 @@ namespace ASP.NET_Meeting_11.Controllers
                 {
                     foreach (var item in images)
                     {
-                        Photo buf = new Photo { FileName = item.FileName, ContentType = item.ContentType, PhotoData = GetImageBytes(item), Good = good };
-                        good.Photos.Add(buf);
+                        if (item != null)
+                        {
+                            Photo buf = new Photo { FileName = item.FileName, ContentType = item.ContentType, PhotoData = GetImageBytes(item), Good = good };
+                            good.Photos.Add(buf);
+                        }
                     }
                 }
                 repository.Create(good);

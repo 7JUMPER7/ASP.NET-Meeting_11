@@ -1,13 +1,27 @@
-﻿@using ASP.NET_Meeting_11.Models
-@model IEnumerable<Good>
+﻿@using PagedList
+@using PagedList.Mvc
+@using ASP.NET_Meeting_11.ViewModel
+@model GoodIndexViewModel
 
-<p>
-    @Html.ActionLink("Create New", "Create", null, new { @class="btn btn-primary"} )
-</p>
+@section styles {
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+}
+
+<div class="controls">
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-light" })
+    @using (Html.BeginForm("Index", "Goods", FormMethod.Get))
+    {
+        <div class="filter">
+            <label for="Category">Категория:</label>
+            @Html.DropDownList("Category", Model.Categories, new { @class = "form-control", id = "Category" })
+        </div>
+        <input type="submit" value="Select" class="btn btn-light" />
+    }
+</div>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
 
-    @foreach (Good item in Model)
+    @foreach (var item in Model.Goods)
     {
         <div class="col">
             <a href="@Url.Action("Details", "Goods", new { id = item.Id }, null)" class="goodLink">
@@ -34,3 +48,6 @@
         </div>
     }
 </div>
+<nav class="pageSelector">
+    @Html.PagedListPager(Model.Goods, page => Url.Action("Index", new { page = page }))
+</nav>
