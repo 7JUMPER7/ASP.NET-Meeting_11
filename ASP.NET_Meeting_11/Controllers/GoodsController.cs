@@ -16,10 +16,10 @@ namespace ASP.NET_Meeting_11.Controllers
 {
     public class GoodsController : Controller
     {
-        private readonly IRepository<Good> repository;
-        public GoodsController(IRepository<Good> repository)
+        private readonly IUnitOfWork repository;
+        public GoodsController(IUnitOfWork unitOfWork)
         {
-            this.repository = repository;
+            this.repository = unitOfWork;
         }
 
         // GET: Goods
@@ -28,13 +28,13 @@ namespace ASP.NET_Meeting_11.Controllers
             int pageNumber = page.HasValue ? page.Value : 1;
             int pageSize = 3;
 
-            var goods = repository.GetList();
+            var goods = repository.Goods.GetList();
             if (category.HasValue && category != 0)
             {
                 goods = goods.Where(g => g.CategoryId == category);
             }
 
-            GoodIndexViewModel viewModel = new GoodIndexViewModel { Goods = goods.ToList().ToPagedList(pageNumber, pageSize), Categories = repository.GetCategories("Id", "CategoryName", true) };
+            GoodIndexViewModel viewModel = new GoodIndexViewModel { Goods = goods.ToList().ToPagedList(pageNumber, pageSize), Categories = repository.Goods.GetCategories("Id", "CategoryName", true) };
             return View(viewModel);
         }
 
@@ -43,7 +43,7 @@ namespace ASP.NET_Meeting_11.Controllers
         {
             if (id.HasValue)
             {
-                Good buf = repository.GetById(id.Value);
+                Good buf = repository.Goods.GetById(id.Value);
                 if (buf != null)
                 {
                     return View(buf);
@@ -55,7 +55,7 @@ namespace ASP.NET_Meeting_11.Controllers
         // GET: Goods/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryId = repository.GetCategories("Id", "CategoryName");
+            ViewBag.CategoryId = repository.Goods.GetCategories("Id", "CategoryName");
             return View();
         }
 
@@ -79,11 +79,11 @@ namespace ASP.NET_Meeting_11.Controllers
                         }
                     }
                 }
-                repository.Create(good);
+                repository.Goods.Create(good);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CategoryId = repository.GetCategories("Id", "CategoryName", good.CategoryId);
+            ViewBag.CategoryId = repository.Goods.GetCategories("Id", "CategoryName", good.CategoryId);
             return View(good);
         }
 
@@ -92,8 +92,8 @@ namespace ASP.NET_Meeting_11.Controllers
         {
             if (id.HasValue)
             {
-                Good buf = repository.GetById(id.Value);
-                ViewBag.CategoryId = repository.GetCategories("Id", "CategoryName", buf.CategoryId);
+                Good buf = repository.Goods.GetById(id.Value);
+                ViewBag.CategoryId = repository.Goods.GetCategories("Id", "CategoryName", buf.CategoryId);
                 return View(buf);
             }
             return HttpNotFound();
@@ -110,20 +110,20 @@ namespace ASP.NET_Meeting_11.Controllers
             {
                 if (images != null)
                 {
-                    repository.RemoveImagesOfGood(good);
+                    repository.Goods.RemoveImagesOfGood(good);
                     foreach (var item in images)
                     {
                         if (item != null)
                         {
                             Photo buf = new Photo { FileName = item.FileName, ContentType = item.ContentType, PhotoData = GetImageBytes(item), GoodId = good.Id };
-                            repository.AddPhoto(buf);
+                            repository.Goods.AddPhoto(buf);
                         }
                     }
                 }
-                repository.Update(good);
+                repository.Goods.Update(good);
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryId = repository.GetCategories("Id", "CategoryName", good.CategoryId);
+            ViewBag.CategoryId = repository.Goods.GetCategories("Id", "CategoryName", good.CategoryId);
             return View(good);
         }
 
@@ -132,7 +132,7 @@ namespace ASP.NET_Meeting_11.Controllers
         {
             if (id.HasValue)
             {
-                Good buf = repository.GetById(id.Value);
+                Good buf = repository.Goods.GetById(id.Value);
                 if (buf != null)
                 {
                     return View(buf);
@@ -146,7 +146,7 @@ namespace ASP.NET_Meeting_11.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            repository.Delete(id);
+            repository.Goods.Delete(id);
             return RedirectToAction("Index");
         }
 

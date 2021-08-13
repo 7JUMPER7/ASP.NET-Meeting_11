@@ -14,6 +14,7 @@ namespace ASP.NET_Meeting_11.Utils
         {
             Bind<IRepository<Good>>().To<GoodsRepository>();
             Bind<GoodsContext>().To<GoodsContext>();
+            Bind<IUnitOfWork>().To<EFUnitOfWork>();
         }
     }
 }

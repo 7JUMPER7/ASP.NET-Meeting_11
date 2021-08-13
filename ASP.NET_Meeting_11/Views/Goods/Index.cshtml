@@ -49,5 +49,5 @@
     }
 </div>
 <nav class="pageSelector">
-    @Html.PagedListPager(Model.Goods, page => Url.Action("Index", new { page = page }))
+    @Html.PagedListPager(Model.Goods, page => Url.Action("Index", new { page = page, category = Request.QueryString["category"] }))
 </nav>

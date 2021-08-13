@@ -147,10 +147,12 @@
     <Compile Include="Controllers\GoodsController.cs" />
     <Compile Include="Controllers\ManufacturersController.cs" />
     <Compile Include="DAL\IRepository.cs" />
+    <Compile Include="DAL\IUnitOfWork.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\EFUnitOfWork.cs" />
     <Compile Include="Models\Good.cs" />
     <Compile Include="Models\GoodsRepository.cs" />
     <Compile Include="Models\Photo.cs" />
